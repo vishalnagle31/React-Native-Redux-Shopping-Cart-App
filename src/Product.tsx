@@ -1,81 +1,130 @@
 import React from 'react';
-import { View, FlatList, Text, Image, Button, TouchableOpacity } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItemsToCart } from './redux/action/Actions';
+import {View, FlatList, Text, Image, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {addItemsToCart} from './redux/action/Actions';
 
 const projects = [
   {
     id: 1,
-    name: 'Project 1',
+    name: 'Campus Shoes',
     price: '$100',
     image: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg',
-    thumbnail: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg'
+    thumbnail:
+      'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg',
   },
   {
     id: 2,
-    name: 'Project 2',
-    price: '$150',
-    image: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg',
-    thumbnail: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg'
+    name: 'Gaming Monitor',
+    price: '$250',
+    image: 'https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg',
+    thumbnail: 'https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg',
   },
   {
     id: 3,
-    name: 'Project 3',
-    price: '$150',
+    name: 'Bass Speaker',
+    price: '$200',
     image: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg',
-    thumbnail: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg'
+    thumbnail:
+      'https://motorolaus.vtexassets.com/arquivos/garage-power-single-family-image.png',
   },
   {
     id: 4,
-    name: 'Project 4',
+    name: 'Amazon Echo',
     price: '$150',
-    image: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg',
-    thumbnail: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg'
+    image:
+      'https://images-static.nykaa.com/media/catalog/product/2/8/28f9980amaac00000005_1.jpg',
+    thumbnail:
+      'https://i.gadgets360cdn.com/products/large/amazon-echo-dot-5th-gen-db-812x799-1677735398.jpg',
   },
   {
     id: 5,
-    name: 'Project 5',
+    name: 'Iphone 14',
     price: '$150',
     image: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg',
-    thumbnail: 'https://m.media-amazon.com/images/I/51UUezRooCL._AC_UY1000_.jpg'
+    thumbnail:
+      'https://cdn1.smartprix.com/rx-ibsJ2hNrF-w1200-h1200/bsJ2hNrF.jpg',
   },
   // Add more project objects as needed
 ];
 
-const Products = ({navigation}:{navigation: any}) => {
+const Products = ({navigation}: {navigation: any}) => {
+  const dispatch = useDispatch();
+  const addedItem = useSelector(state => state.Reducers);
 
-    const dispatch = useDispatch(); 
-    const addedItem = useSelector(state => state.Reducers); 
+  const AddItems = item => {
+    dispatch(addItemsToCart(item));
+  };
 
-    console.log("added --> ",addedItem)
+  const renderCard = ({item}) => (
+    <View
+      style={{
+        marginBottom: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 2,
+        backgroundColor: 'white',
+        margin: 40,
+        padding: 40,
+        height: 380,
+        borderRadius: 20,
+      }}>
+      <Image
+        source={{uri: item.thumbnail}}
+        style={{width: '100%', height: 190, resizeMode: 'contain'}}
+      />
+      <View style={{justifyContent: 'center', alignItems: 'center', gap: 10}}>
+        <Text style={{fontSize: 20, color: '#414743'}}>{item.name}</Text>
+        <Text style={{fontSize: 20, paddingBottom: 10, color: '#414743'}}>
+          {item.price}
+        </Text>
+      </View>
 
-    const AddItems = (item) => {
-          console.log("added  --> ",item)
-          dispatch(addItemsToCart(item))
-    }
-
-
-  const renderItem = ({ item }) => (
-    <View  style={{ marginBottom: 20 }}>
-      <Image source={{uri: item.thumbnail}} style={{ width: 100, height: 100 }} />
-      <Text>{item.name}</Text>
-      <Text>{item.price}</Text>
-      <Button  title='shopNow' onPress={()=>{AddItems(item)}}/>
+      <TouchableOpacity
+        style={{
+          backgroundColor: '#48a15e',
+          borderRadius: 4,
+          paddingVertical: 8,
+          paddingHorizontal: 12,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 8,
+        }}
+        onPress={() => {
+          AddItems(item);
+        }}>
+        <Text style={{color: 'white'}}>Add to Cart</Text>
+      </TouchableOpacity>
     </View>
   );
 
   return (
     <View>
-        <TouchableOpacity onPress={()=>{navigation.navigate('CartScreen')}}>
-
-    <Text>Count of Products {addedItem.length}</Text>
+      <View
+        style={{backgroundColor: 'green', height: 50, alignItems: 'flex-end'}}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: 'white',
+            borderRadius: 30,
+            marginRight: 5,
+            paddingRight: 20,
+            paddingLeft: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 5,
+          }}
+          onPress={() => navigation.navigate('CartScreen')}>
+          <Image source={require('../assets/cart.png')} />
+          <Text style={{fontSize: 20, padding: 2}}>{addedItem.length}</Text>
         </TouchableOpacity>
-    <FlatList
-      data={projects}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderItem}
-      />
       </View>
+      <FlatList
+        data={projects}
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderCard}
+      />
+    </View>
   );
 };
 
