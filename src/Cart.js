@@ -78,13 +78,14 @@ const Cart = ({navigation}) => {
               backgroundColor: 'white',
               marginRight: 20,
               borderRadius: 50,
-              paddingLeft: 20,
+              justifyContent: 'center',
               width: 100,
               flexDirection: 'row',
               alignItems: 'center',
+              marginVertical: 1
             }}>
-            <Image source={require('../assets/cart.png')} />
-            <Text style={{fontSize: 20}}>{items.length}</Text>
+            <Image source={require('../assets/cart.png')} resizeMode='contain'/>
+            <Text style={{fontSize: 26, fontWeight: '600', color: '#000'}}>{items.length}</Text>
           </View>
         </View>
       </View>
