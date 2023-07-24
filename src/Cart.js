@@ -52,6 +52,7 @@ const Cart = ({navigation}) => {
         style={{
           backgroundColor: 'red',
           height: 30,
+          borderRadius: 20,
           justifyContent: 'center',
           alignItems: 'center',
         }}
